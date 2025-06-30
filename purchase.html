@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Purchase ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #111827;
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --primary-text: #f9fafb;
+            --secondary-text: #9ca3af;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--primary-text);
+            overflow-x: hidden;
+            background: linear-gradient(300deg, #1a202c, #2d3748, #4a5568, #2d3748);
+            background-size: 300% 300%;
+            animation: background-pan 30s ease-in-out infinite;
+        }
+        
+        #blob {
+            background: linear-gradient(to right, #4a00e0, #8e2de2);
+            height: 350px;
+            width: 350px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        header.glass-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-link { color: var(--secondary-text); transition: color 0.3s, text-shadow 0.3s; }
+        .nav-link:hover { color: var(--primary-text); text-shadow: 0 0 5px var(--primary-text); }
+        
+        .form-input {
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--primary-text);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            width: 100%;
+        }
+        .form-input::placeholder { color: var(--secondary-text); }
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .paytm-button {
+            background-color: #00b9f1;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .paytm-button:hover {
+            background-color: #00a4d9;
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(0, 185, 241, 0.4);
+        }
+
+        .cod-button {
+            background-color: #10b981; /* Emerald-500 */
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .cod-button:hover {
+            background-color: #059669; /* Emerald-600 */
+            transform: scale(1.03);
+        }
+
+        .payment-option {
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+        }
+        .payment-option:has(input:checked) {
+             border-color: #00b9f1;
+             box-shadow: 0 0 10px rgba(0, 185, 241, 0.2);
+        }
+        .payment-option:has(input[value="cod"]:checked) {
+             border-color: #10b981;
+             box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        }
+
+        .radio-custom-dot {
+            transition: all 0.2s ease;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--secondary-text);
+        }
+        .payment-option:has(input:checked) .radio-custom-dot {
+            border-color: #fff;
+            background-color: #fff;
+            box-shadow: 0 0 0 2px var(--dark-bg) inset;
+        }
+        .payment-option:has(input[value="paytm"]:checked) .radio-custom-dot {
+            background-color: #00b9f1;
+        }
+        .payment-option:has(input[value="cod"]:checked) .radio-custom-dot {
+            background-color: #10b981;
+        }
+        
+
+        /* --- Mobile Overrides --- */
+        @media (max-width: 768px) {
+            body { background: #f9fafb; color: #1f2937; animation: none; }
+            #blob { display: none; }
+            header.glass-header {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .nav-link { color: #374151; }
+            .nav-link i { color: #374151; }
+            .nav-link:hover { color: #111827; text-shadow: none; }
+            .glass-panel {
+                background-color: #ffffff;
+                backdrop-filter: none;
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+                padding: 1.5rem;
+            }
+            h1 { font-size: 2rem; color: #111827; }
+            .form-input {
+                background-color: #f3f4f6;
+                border-color: #d1d5db;
+                color: #1f2937;
+            }
+            .form-input::placeholder { color: #6b7280; }
+            .form-input:focus { border-color: #00b9f1; box-shadow: none; }
+            
+            .paytm-button:hover, .cod-button:hover { transform: none; box-shadow: none; }
+
+            .payment-option:has(input:checked) {
+                border-color: #4f46e5;
+                box-shadow: none;
+            }
+        }
+
+        #success-message {
+            display: none;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        #success-message .icon {
+            font-size: 4rem;
+            color: #10b981;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="blob"></div>
+    <header class="glass-header">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold tracking-widest">SHOPPERS</a>
+            <div class="flex items-center space-x-6">
+                <a href="#" class="nav-link"><i class="fas fa-search"></i></a>
+                <a href="cart.html" class="nav-link"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 pt-32 pb-16">
+        <div id="form-container" class="max-w-2xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold text-center mb-12 animate-fade-in" style="animation: fadeIn 1s ease-out;">Complete Your Purchase</h1>
+            <div class="glass-panel p-8 md:p-10">
+                <form id="purchase-form" action="https://formspree.io/f/xyzjodlq" method="POST" class="space-y-6">
+                    <input type="hidden" name="_webhook" value="https://hook.eu2.make.com/mnlxa76oyqwzuebjsc8fmg88ube5qvur">
+                    <input type="hidden" name="Product" value="Midnight Moon Crop Top">
+                    <input type="hidden" name="Amount" value="1549.00">
+                    <div>
+                        <label for="full-name" class="block text-sm font-medium mb-2">Full Name</label>
+                        <input type="text" id="full-name" name="FullName" class="form-input" placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <label for="address" class="block text-sm font-medium mb-2">Shipping Address</label>
+                        <textarea id="address" name="Address" class="form-input" rows="3" placeholder="1234 Main St, Anytown..." required></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="city" class="block text-sm font-medium mb-2">City</label>
+                            <input type="text" id="city" name="City" class="form-input" placeholder="City" required>
+                        </div>
+                        <div>
+                            <label for="pincode" class="block text-sm font-medium mb-2">Pincode</label>
+                            <input type="text" id="pincode" name="Pincode" class="form-input" placeholder="110001" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-sm font-medium mb-2">Phone Number</label>
+                        <input type="tel" id="phone" name="Phone" class="form-input" placeholder="For delivery updates" required>
+                    </div>
+                    <div class="pt-4">
+                        <label class="block text-sm font-medium mb-2">Payment Method</label>
+                        <div class="space-y-3">
+                            <label for="cod" class="flex items-center p-4 rounded-lg form-input cursor-pointer payment-option">
+                                <input type="radio" id="cod" name="Payment Method" value="Cash on Delivery" class="hidden" checked>
+                                <span class="radio-custom-dot rounded-full mr-4 flex-shrink-0"></span>
+                                <span class="font-medium">Cash on Delivery (COD)</span>
+                            </label>
+                            <label for="paytm" class="flex items-center p-4 rounded-lg form-input cursor-pointer payment-option">
+                                <input type="radio" id="paytm" name="Payment Method" value="Pay with Paytm" class="hidden">
+                                <span class="radio-custom-dot rounded-full mr-4 flex-shrink-0"></span>
+                                <span class="font-medium">Pay with Paytm</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="pt-4">
+                        <button type="submit" id="place-order-btn" class="cod-button w-full py-3 rounded-full font-semibold text-lg flex items-center justify-center gap-2">
+                            Place Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="success-message" class="glass-panel p-8 md:p-12">
+            <div class="icon">✓</div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Thank You!</h1>
+            <p class="text-lg text-gray-400">Your order has been placed successfully. We will contact you shortly with confirmation.</p>
+            <a href="index.html" class="inline-block mt-8 px-8 py-3 rounded-full font-semibold text-lg" style="background-color: var(--primary-text); color: var(--dark-bg);">Continue Shopping</a>
+        </div>
+    </main>
+    
+    <footer class="text-center py-10">
+        <p class="text-sm" style="color: var(--secondary-text);">&copy; 2024 SHOPPERS. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('purchase-form');
+            const successMessage = document.getElementById('success-message');
+            const formContainer = document.getElementById('form-container');
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            const paymentRadios = document.querySelectorAll('input[name="Payment Method"]');
+
+            function updateButtonState() {
+                const selectedPayment = document.querySelector('input[name="Payment Method"]:checked').value;
+                if (selectedPayment === 'Pay with Paytm') {
+                    placeOrderBtn.textContent = 'Pay with Paytm';
+                    placeOrderBtn.classList.remove('cod-button');
+                    placeOrderBtn.classList.add('paytm-button');
+                } else {
+                    placeOrderBtn.textContent = 'Place Order';
+                    placeOrderBtn.classList.remove('paytm-button');
+                    placeOrderBtn.classList.add('cod-button');
+                }
+            }
+
+            paymentRadios.forEach(radio => {
+                radio.addEventListener('change', updateButtonState);
+            });
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                placeOrderBtn.disabled = true;
+                placeOrderBtn.innerHTML = 'Processing...';
+
+                const formData = new FormData(form);
+                
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        formContainer.style.display = 'none';
+                        successMessage.style.display = 'block';
+                        window.scrollTo(0, 0);
+                    } else {
+                        response.json().then(data => {
+                            if (Object.hasOwn(data, 'errors')) {
+                                alert(data["errors"].map(error => error["message"]).join(", "));
+                            } else {
+                                alert('An unexpected error occurred. Please try again.');
+                            }
+                            placeOrderBtn.disabled = false;
+                            updateButtonState();
+                        })
+                    }
+                }).catch(error => {
+                    alert('An error occurred. Please check your connection and try again.');
+                    placeOrderBtn.disabled = false;
+                    updateButtonState();
+                });
+            });
+
+            // Initial state
+            updateButtonState();
+        });
+    </script>
+
+</body>
+</html> 

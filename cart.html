@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cosmic Cart 🛒✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #111827;
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --primary-text: #f9fafb;
+            --secondary-text: #9ca3af;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--primary-text);
+            overflow-x: hidden;
+            background: linear-gradient(300deg, #1a202c, #2d3748, #4a5568, #2d3748);
+            background-size: 300% 300%;
+            animation: background-pan 30s ease-in-out infinite;
+        }
+        
+        #blob {
+            background: linear-gradient(to right, #4a00e0, #8e2de2);
+            height: 350px;
+            width: 350px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        header.glass-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-link {
+            color: var(--secondary-text);
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .nav-link:hover {
+            color: var(--primary-text);
+            text-shadow: 0 0 5px var(--primary-text);
+        }
+
+        .cart-item {
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item:hover { background-color: rgba(255, 255, 255, 0.03); }
+
+        .quantity-btn {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            color: var(--secondary-text);
+            transition: all 0.3s ease;
+        }
+        .quantity-btn:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: var(--primary-text);
+        }
+        
+        .quantity-input {
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            -moz-appearance: textfield;
+        }
+        
+        .checkout-button {
+            background-color: var(--primary-text);
+            color: var(--dark-bg);
+            transition: all 0.3s ease;
+        }
+        .checkout-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(241, 245, 249, 0.3);
+        }
+
+        /* --- Mobile Overrides --- */
+        @media (max-width: 768px) {
+            body {
+                background: #f9fafb;
+                color: #1f2937;
+                animation: none;
+            }
+
+            #blob {
+                display: none;
+            }
+
+            header.glass-header {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .nav-link { color: #374151; }
+            .nav-link i { color: #374151; }
+            .nav-link:hover { color: #111827; text-shadow: none; }
+            
+            .glass-panel {
+                background-color: #ffffff;
+                backdrop-filter: none;
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+                padding: 1rem;
+            }
+
+            h1 { font-size: 2rem; color: #111827; }
+            h2 { color: #111827; }
+            h3 { color: #1f2937; }
+            .text-sm.text-gray-400 { color: #4b5563; }
+            .item-price, .item-total { color: #111827; }
+            
+            .cart-item {
+                border-color: #e5e7eb;
+            }
+
+            .quantity-btn {
+                background-color: #fff;
+                border-color: #d1d5db;
+                color: #374151;
+            }
+            .quantity-btn:hover {
+                border-color: #111827;
+                color: #111827;
+            }
+
+            .checkout-button {
+                background-color: #111827;
+                color: #fff;
+            }
+            .checkout-button:hover {
+                background-color: #374151;
+                box-shadow: none;
+            }
+
+            .flex-col.lg\:flex-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="blob"></div>
+
+    <header class="glass-header">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold tracking-widest">SHOPPERS</a>
+            <div class="flex items-center space-x-6">
+                <a href="#" class="nav-link"><i class="fas fa-search"></i></a>
+                <a href="cart.html" class="nav-link"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 pt-32 pb-16">
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-12 animate-fade-in" style="animation: fadeIn 1s ease-out;">Your Cosmic Cart 🛒</h1>
+
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Cart Items -->
+            <div class="lg:w-2/3 glass-panel p-6 md:p-8">
+                <!-- Cart Item 1 -->
+                <div class="flex flex-col md:flex-row items-center py-6 cart-item">
+                    <div class="w-full md:w-2/5 flex items-center mb-4 md:mb-0">
+                        <img src="front.png" alt="Product" class="w-24 h-24 object-cover rounded-xl mr-6">
+                        <div>
+                            <h3 class="font-semibold text-lg">Midnight Moon Crop Top</h3>
+                            <p class="text-sm text-gray-400">Color: Black, Size: M</p>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/5 text-center mb-4 md:mb-0">
+                        <span class="font-medium item-price">₹499</span>
+                    </div>
+                    <div class="w-full md:w-1/5 flex justify-center items-center space-x-4 mb-4 md:mb-0">
+                        <button class="decrease-qty quantity-btn h-10 w-10 rounded-full focus:outline-none text-2xl">-</button>
+                        <span class="item-qty font-semibold text-lg w-8 text-center">1</span>
+                        <button class="increase-qty quantity-btn h-10 w-10 rounded-full focus:outline-none text-xl">+</button>
+                    </div>
+                    <div class="w-full md:w-1/5 text-right font-bold text-lg">
+                        <span class="item-total">₹499</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:w-1/3">
+                <div class="glass-panel p-8">
+                    <h2 class="text-2xl font-bold mb-6">Order Summary 🧾</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between text-lg">
+                            <span class="text-gray-400">Subtotal</span>
+                            <span id="subtotal" class="font-medium">₹499.00</span>
+                        </div>
+                        <div class="flex justify-between text-lg text-gray-400">
+                            <span>Shipping</span>
+                            <span id="shipping">₹50.00</span>
+                        </div>
+                    </div>
+                    <div class="border-t border-white/10 my-6"></div>
+                    <div class="flex justify-between font-bold text-2xl mb-8">
+                        <span>Total</span>
+                        <span id="total">₹549.00</span>
+                    </div>
+                    <button onclick="window.location.href='purchase.html'" class="checkout-button w-full py-4 rounded-full font-semibold text-lg">
+                        Checkout 🚀
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="text-center py-10 text-gray-500">
+        <p>Made with ❤️ by <a href="https://www.instagram.com/yapperkrish/" class="text-primary-text">The Shoppers</a></p>
+    </footer>
+
+    <script>
+        const blob = document.getElementById("blob");
+        window.onpointermove = event => { 
+            const { clientX, clientY } = event;
+            blob.animate({
+                left: `${clientX}px`,
+                top: `${clientY}px`
+            }, { duration: 4000, fill: "forwards" });
+        }
+        
+        document.querySelectorAll('.increase-qty').forEach(button => {
+            button.addEventListener('click', function() {
+                let qtyElement = this.previousElementSibling;
+                let currentQty = parseInt(qtyElement.textContent);
+                qtyElement.textContent = currentQty + 1;
+                updateItemTotal(this.closest('.cart-item'));
+            });
+        });
+
+        document.querySelectorAll('.decrease-qty').forEach(button => {
+            button.addEventListener('click', function() {
+                let qtyElement = this.nextElementSibling;
+                let currentQty = parseInt(qtyElement.textContent);
+                if (currentQty > 1) {
+                    qtyElement.textContent = currentQty - 1;
+                    updateItemTotal(this.closest('.cart-item'));
+                }
+            });
+        });
+
+        function updateItemTotal(item) {
+            let price = parseFloat(item.querySelector('.item-price').textContent.replace('₹', ''));
+            let qty = parseInt(item.querySelector('.item-qty').textContent);
+            item.querySelector('.item-total').textContent = '₹' + (price * qty).toFixed(0);
+            updateCartTotal();
+        }
+        function updateCartTotal() {
+            let subtotal = 0;
+            document.querySelectorAll('.item-total').forEach(total => {
+                subtotal += parseFloat(total.textContent.replace('₹', ''));
+            });
+            let shipping = 50.00;
+            let total = subtotal + shipping;
+            document.getElementById('subtotal').textContent = '₹' + subtotal.toFixed(2);
+            document.getElementById('total').textContent = '₹' + total.toFixed(2);
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midnight Moon Crop Top 🌙✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #111827; /* A deep, neutral dark blue */
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --primary-text: #f9fafb;
+            --secondary-text: #9ca3af;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--primary-text);
+            overflow-x: hidden;
+            background: linear-gradient(300deg, #1a202c, #2d3748, #4a5568, #2d3748);
+            background-size: 300% 300%;
+            animation: background-pan 30s ease-in-out infinite;
+        }
+        
+        #blob {
+            background: linear-gradient(to right, #4a00e0, #8e2de2);
+            height: 350px;
+            width: 350px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
+        }
+        .glass-panel:hover {
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+        }
+
+        header.glass-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-link {
+            color: var(--secondary-text);
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .nav-link:hover {
+            color: var(--primary-text);
+            text-shadow: 0 0 5px var(--primary-text);
+        }
+
+        .product-image {
+            filter: drop-shadow(0 25px 30px rgba(0,0,0,0.3));
+            transition: transform 0.4s ease;
+            overflow: hidden;
+        }
+        .product-image:hover {
+            transform: scale(1.03);
+        }
+
+        .add-to-cart-btn {
+            background-color: var(--primary-text);
+            color: var(--dark-bg);
+            transition: all 0.3s ease;
+        }
+        .add-to-cart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(241, 245, 249, 0.3);
+        }
+        .add-to-cart-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .size-btn {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            color: var(--secondary-text);
+            transition: all 0.3s ease;
+        }
+        .size-btn:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: var(--primary-text);
+        }
+        .size-btn.active {
+            background-color: var(--primary-text);
+            color: var(--dark-bg);
+            border-color: var(--primary-text);
+        }
+        
+        .animate-slide-up { animation: slideUp 0.8s ease-out forwards; opacity: 0; }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .indicator.active {
+            background-color: white;
+        }
+
+        #image-carousel {
+            cursor: grab;
+            user-select: none;
+            position: relative;
+            padding-bottom: 40px; /* Make space for indicator */
+        }
+
+        .slide {
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.4;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 1.25rem;
+            transform: scale(0.85);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slide.active img {
+            transform: scale(1);
+        }
+
+        .slide-indicator {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-indicator-text {
+            margin-top: 8px;
+            font-size: 0.65rem;
+            color: var(--secondary-text);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .slide-indicator-bar {
+            width: 50px;
+            height: 4px;
+            background-color: #d1d5db;
+            border-radius: 2px;
+            animation: slide-hint 2.5s infinite cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        @keyframes slide-hint {
+            0% {
+                transform: translateX(-15px);
+                background-color: #9ca3af;
+            }
+            50% {
+                transform: translateX(15px);
+                background-color: #d1d5db;
+            }
+            100% {
+                transform: translateX(-15px);
+                background-color: #9ca3af;
+            }
+        }
+
+        /* --- Mobile Overrides --- */
+        @media (max-width: 768px) {
+            body {
+                background: #f9fafb;
+                color: #1f2937;
+                animation: none;
+            }
+
+            #blob {
+                display: none;
+            }
+
+            header.glass-header {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .nav-link { color: #374151; }
+            .nav-link i { color: #374151; }
+            .nav-link:hover { color: #111827; text-shadow: none; }
+            
+            .glass-panel {
+                background-color: #ffffff;
+                backdrop-filter: none;
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+                padding: 1rem;
+            }
+
+            h1 { font-size: 2rem; color: #111827; }
+            .text-lg.text-gray-400 { color: #4b5563; }
+            .text-3xl.font-bold { color: #111827; }
+            .text-lg.font-semibold { color: #374151; }
+
+            .product-image {
+                height: 350px;
+                filter: none;
+                box-shadow: none;
+            }
+            
+            .slide-indicator-text {
+                color: #6b7280;
+            }
+
+            .size-btn {
+                background-color: #fff;
+                border-color: #d1d5db;
+                color: #374151;
+                box-shadow: none;
+            }
+            .size-btn:hover {
+                border-color: #111827;
+                color: #111827;
+            }
+            .size-btn.active {
+                background-color: #111827;
+                color: #fff;
+                border-color: #111827;
+            }
+            
+            .add-to-cart-btn {
+                background-color: #111827;
+                color: #fff;
+            }
+            .add-to-cart-btn:hover {
+                background-color: #374151;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="blob"></div>
+    
+    <header class="glass-header">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-widest">SHOPPERS</div>
+            <div class="flex items-center space-x-6">
+                <a href="cart.html" class="nav-link"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 pt-32 pb-16">
+        <div class="glass-panel p-8 md:p-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="relative animate-slide-up" id="image-carousel">
+                    <div class="relative h-[450px] md:h-[600px] rounded-2xl product-image">
+                        <!-- Slides -->
+                        <div class="flex h-full" id="slider">
+                            <div class="slide active">
+                                <img src="./front.png" alt="Midnight Moon Crop Top - Front" class="w-full h-full object-cover">
+                            </div>
+                            <div class="slide">
+                                <img src="back.png" alt="Midnight Moon Crop Top - Back" class="w-full h-full object-cover">
+                            </div>
+                            <div class="slide">
+                                <img src="hangged.png" alt="Midnight Moon Crop Top - Hanged" class="w-full h-full object-cover">
+                            </div>
+                            <div class="slide">
+                                <img src="more.png" alt="Midnight Moon Crop Top - Lifestyle" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide-indicator">
+                        <div class="slide-indicator-bar"></div>
+                        <span class="slide-indicator-text">slide</span>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-up" style="animation-delay: 0.2s;">
+                    <span class="text-xs rounded-full mb-2 inline-block px-2 py-1 border border-amber-500/15 bg-amber-500/15 text-amber-500">🔥 Bestseller!</span>
+                    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">Midnight Moon Crop Top ✨</h1>
+                    <p class="text-lg text-gray-400 mb-6">A fusion of cosmic style 🌌 and comfort, designed to make you shine 💎.</p>
+                    
+                    <div class="flex items-center mb-8">
+                        <span class="text-3xl font-bold">₹499</span>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4">Size</h3>
+                        <div class="flex space-x-3">
+                            <button class="size-btn px-5 py-2 rounded-full">S</button>
+                            <button class="size-btn px-5 py-2 rounded-full active">M</button>
+                            <button class="size-btn px-5 py-2 rounded-full">L</button>
+                        </div>
+                    </div>
+                    
+                    <button id="addToCartBtn" onclick="addToCollection()" class="add-to-cart-btn w-full px-10 py-4 rounded-full font-semibold text-lg">
+                        Add to Collection 💫
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-10 text-gray-500">
+        <p>&copy; 2024 SHOPPERS. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const sizeButtons = document.querySelectorAll('.size-btn');
+        sizeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const currentActive = document.querySelector('.size-btn.active');
+                if (currentActive) {
+                    currentActive.classList.remove('active');
+                }
+                button.classList.add('active');
+            });
+        });
+
+        function addToCollection() {
+            const button = document.getElementById('addToCartBtn');
+            button.disabled = true;
+            button.style.backgroundColor = '#90A955';
+            button.style.borderColor = '#90A955';
+            button.style.color = '#FFFFFF';
+            button.innerHTML = 'Added! ✨';
+
+            setTimeout(() => {
+                window.location.href = 'cart.html';
+            }, 1500);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.getElementById('image-carousel');
+            const slider = document.getElementById('slider');
+            if (!carousel || !slider) return;
+
+            let isDragging = false;
+            let startPos = 0;
+            let currentTranslate = 0;
+            let prevTranslate = 0;
+            let animationID;
+            let currentIndex = 0;
+            const slides = Array.from(slider.children);
+            const totalSlides = slides.length;
+
+            slides.forEach(slide => {
+                slide.addEventListener('dragstart', (e) => e.preventDefault());
+            });
+
+            carousel.addEventListener('mousedown', dragStart);
+            carousel.addEventListener('touchstart', dragStart, { passive: true });
+
+            carousel.addEventListener('mouseup', dragEnd);
+            carousel.addEventListener('touchend', dragEnd);
+            carousel.addEventListener('mouseleave', dragEnd);
+
+            carousel.addEventListener('mousemove', drag);
+            carousel.addEventListener('touchmove', drag, { passive: true });
+
+            function getPositionX(e) {
+                return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            }
+
+            function dragStart(e) {
+                startPos = getPositionX(e);
+                isDragging = true;
+                animationID = requestAnimationFrame(animation);
+                slider.style.transition = 'none';
+                carousel.style.cursor = 'grabbing';
+            }
+
+            function drag(e) {
+                if (isDragging) {
+                    const currentPosition = getPositionX(e);
+                    currentTranslate = prevTranslate + currentPosition - startPos;
+                }
+            }
+
+            function dragEnd(e) {
+                if (!isDragging) return;
+                
+                isDragging = false;
+                cancelAnimationFrame(animationID);
+                carousel.style.cursor = 'grab';
+
+                const movedBy = currentTranslate - prevTranslate;
+
+                if (movedBy < -100 && currentIndex < totalSlides - 1) {
+                    currentIndex += 1;
+                }
+
+                if (movedBy > 100 && currentIndex > 0) {
+                    currentIndex -= 1;
+                }
+
+                setPositionByIndex();
+            }
+
+            function animation() {
+                slider.style.transform = `translateX(${currentTranslate}px)`;
+                if (isDragging) requestAnimationFrame(animation);
+            }
+
+            function setPositionByIndex() {
+                currentTranslate = currentIndex * -slider.offsetWidth;
+                prevTranslate = currentTranslate;
+                slider.style.transition = 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)';
+                slider.style.transform = `translateX(${currentTranslate}px)`;
+
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === currentIndex);
+                });
+            }
+
+            window.addEventListener('resize', setPositionByIndex);
+            setPositionByIndex();
+        });
+    </script>
+</body>
+</html>
